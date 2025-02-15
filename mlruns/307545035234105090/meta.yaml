@@ -1,0 +1,6 @@
+artifact_location: file:///home/vineeth/customer_churn_airflow/mlruns/307545035234105090
+creation_time: 1739647266078
+experiment_id: '307545035234105090'
+last_update_time: 1739647266078
+lifecycle_stage: active
+name: Customer Churn Prediction
