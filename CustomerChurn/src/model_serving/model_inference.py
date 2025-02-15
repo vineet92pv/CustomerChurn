@@ -6,10 +6,12 @@ import json
 from flask import Flask, request, jsonify
 
 # Load trained model and scaler
-MODEL_DIR = "data/models"
-logistic_model_path = os.path.join(MODEL_DIR, "logistic_model.pkl")
-scaler_path = os.path.join(MODEL_DIR, "scaler.pkl")
-feature_names_path = os.path.join(MODEL_DIR, "feature_names.json")
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+model_dir = os.path.join(BASE_DIR, "data/models")
+logistic_model_path = os.path.join(model_dir, "logistic_model.pkl")
+rf_model_path = os.path.join(model_dir, "random_forest_model.pkl")
+scaler_path = os.path.join(model_dir, "scaler.pkl")
+feature_names_path = os.path.join(model_dir, "feature_names.json")
 
 if not os.path.exists(logistic_model_path) or not os.path.exists(scaler_path):
     raise FileNotFoundError("Model or scaler file not found. Train the model first.")
