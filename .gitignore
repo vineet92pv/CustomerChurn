@@ -9,9 +9,7 @@ logs/
 *.log
 
 # Ignore data files
-data/
 database/
-*.csv
 *.db
 
 # Ignore Jupyter notebook checkpoints

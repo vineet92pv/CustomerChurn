@@ -1,0 +1,6 @@
+outs:
+- md5: 15a12a3711ef22280e4548b148b6d9dc.dir
+  size: 3551756
+  nfiles: 1
+  hash: md5
+  path: transformed
