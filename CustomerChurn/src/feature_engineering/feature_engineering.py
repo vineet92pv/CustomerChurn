@@ -25,7 +25,7 @@ class DataTransformation:
     
     @staticmethod
     def feature_engineering(df):
-        logging.info("Performing feature engineering.")
+        logging.info("Performing feature engineering")
         df["Customer_Tenure"] = df["Months_on_book"]
         df["Transaction_Frequency"] = df["Total_Trans_Ct"] / df["Months_on_book"]
         df["Avg_Transaction_Amount"] = df["Total_Trans_Amt"] / df["Total_Trans_Ct"]
