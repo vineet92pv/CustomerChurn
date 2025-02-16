@@ -5,7 +5,8 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime
 
 # Define paths for WSL
-WSL_PROJECT_DIR = "/home/vineeth/airflow/CustomerChurn"
+WSL_PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+#WSL_PROJECT_DIR = "/home/vineeth/airflow/CustomerChurn"
 PYTHON_ENV = f"{WSL_PROJECT_DIR}/airflow_env/bin/python"
 LOG_DIR = f"{WSL_PROJECT_DIR}/logs"
 

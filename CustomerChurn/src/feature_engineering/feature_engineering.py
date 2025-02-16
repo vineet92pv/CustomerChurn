@@ -60,9 +60,10 @@ class DataTransformation:
 
 def run_data_transformation():
     logger = setup_logging()
-    input_file = "data/processed/cleaned_data.csv"  # Load cleaned data
-    output_dir = "data/transformed"
-    db_path = "data/database/churn_data.db"
+    BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+    input_file = os.path.join(BASE_DIR, "data/processed/cleaned_data.csv")  # Load cleaned data
+    output_dir = os.path.join(BASE_DIR, "data/transformed")
+    db_path = os.path.join("data/database/churn_data.db")
     transformation = DataTransformation(input_file, output_dir, db_path, logger)
     transformation.run_transformation()
 

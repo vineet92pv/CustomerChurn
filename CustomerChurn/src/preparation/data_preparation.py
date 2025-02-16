@@ -68,8 +68,9 @@ class DataPreparation:
 
 def run_data_preparation():
     logger = setup_logging()
-    input_file = "data/raw/bank_churn_raw.csv"  # Adjust path if needed
-    output_dir = "data/processed"
+    BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+    input_file = os.path.join(BASE_DIR, "data/raw/bank_churn_raw.csv")  # Adjust path if needed
+    output_dir = os.path.join(BASE_DIR, "data/processed")
     preparation = DataPreparation(input_file, output_dir, logger)
     preparation.run_preparation()
 

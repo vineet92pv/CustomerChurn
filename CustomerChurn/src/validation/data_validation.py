@@ -50,8 +50,9 @@ class DataValidation:
 
 def run_data_validation():
     logger = setup_logging()
-    input_file = "data/raw/bank_churn_raw.csv"  # Adjust path if needed
-    output_dir = "data/validation"
+    BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+    input_file = os.path.join(BASE_DIR, "data/raw/bank_churn_raw.csv")  # Adjust path if needed
+    output_dir = os.path.join(BASE_DIR, "data/validation")
     validation = DataValidation(input_file, output_dir, logger)
     validation.run_validations()
 
