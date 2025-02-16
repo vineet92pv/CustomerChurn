@@ -14,3 +14,6 @@ database/
 
 # Ignore Jupyter notebook checkpoints
 .ipynb_checkpoints/
+
+#secrets
+gdrive-key.json
