@@ -1,6 +1,6 @@
 import requests
 
-url = "http://127.0.0.1:5000/predict"
+url = "http://127.0.0.1:5001/predict"
 
 # Sample input data including all expected features
 data = {

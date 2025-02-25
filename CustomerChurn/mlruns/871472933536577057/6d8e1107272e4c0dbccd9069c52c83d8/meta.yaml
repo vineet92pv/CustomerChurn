@@ -1,0 +1,15 @@
+artifact_uri: file:///home/vineeth/customer_churn_airflow/CustomerChurn/mlruns/871472933536577057/6d8e1107272e4c0dbccd9069c52c83d8/artifacts
+end_time: 1740421382582
+entry_point_name: ''
+experiment_id: '871472933536577057'
+lifecycle_stage: active
+run_id: 6d8e1107272e4c0dbccd9069c52c83d8
+run_name: logistic_model
+run_uuid: 6d8e1107272e4c0dbccd9069c52c83d8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1740421378930
+status: 3
+tags: []
+user_id: vineeth

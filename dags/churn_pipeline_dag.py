@@ -69,35 +69,35 @@ def run_script(script_path: str, task_name: str):
 ingestion_task = PythonOperator(
     task_id="ingest_data",
     python_callable=run_script,
-    op_kwargs={"script_path": "src/ingestion/ingest.py", "task_name": "Data Ingestion"},
+    op_kwargs={"script_path": "src/01_ingestion/ingest.py", "task_name": "Data Ingestion"},
     dag=dag
 )
 
 validation_task = PythonOperator(
     task_id="validate_data",
     python_callable=run_script,
-    op_kwargs={"script_path": "src/validation/data_validation.py", "task_name": "Data Validation"},
+    op_kwargs={"script_path": "src/03_validation/data_validation.py", "task_name": "Data Validation"},
     dag=dag
 )
 
 preparation_task = PythonOperator(
     task_id="prepare_data",
     python_callable=run_script,
-    op_kwargs={"script_path": "src/preparation/data_preparation.py", "task_name": "Data Preparation"},
+    op_kwargs={"script_path": "src/04_preparation/data_preparation.py", "task_name": "Data Preparation"},
     dag=dag
 )
 
 transformation_task = PythonOperator(
     task_id="transform_data",
     python_callable=run_script,
-    op_kwargs={"script_path": "src/feature_engineering/feature_engineering.py", "task_name": "Data Transformation"},
+    op_kwargs={"script_path": "src/05_transformation/feature_engineering.py", "task_name": "Data Transformation"},
     dag=dag
 )
 
 model_training_task = PythonOperator(
     task_id="train_model",
     python_callable=run_script,
-    op_kwargs={"script_path": "src/model_training/model_training.py", "task_name": "Model Training"},
+    op_kwargs={"script_path": "src/08_model_building/model_training.py", "task_name": "Model Training"},
     dag=dag
 )
 
