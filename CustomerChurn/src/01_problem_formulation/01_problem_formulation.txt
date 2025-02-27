@@ -1,0 +1,61 @@
+# Problem Formulation
+
+## 1. Business Problem Definition
+
+Customer churn occurs when an existing customer stops using a company’s services or purchasing its products.
+High churn rates can significantly impact a business by reducing revenue, increasing acquisition costs, and benefiting competitors.
+Addressing customer churn through predictive analytics can help businesses take proactive measures to retain customers
+and improve long-term profitability.
+
+## 2. Business Objectives
+
+The primary objective of this project is to develop an automated data management pipeline
+that enables the prediction of customer churn using machine learning. Key goals include:
+- Reducing customer churn rates by identifying at-risk customers.
+- Enhancing customer retention strategies by providing actionable insights.
+- Automating data collection, preprocessing, and model deployment.
+- Ensuring scalability and robustness in the pipeline architecture.
+
+## 3. Key Data Sources and Attributes
+
+The project will utilize data from multiple sources, including:
+
+- **Web Logs**: User activity data from company websites and mobile applications.
+- **Transactional Systems**: Purchase history, payment records, and subscription details.
+- **Third-Party APIs**: External customer behavior and sentiment data.
+- **Customer Service Interactions**: Support tickets, call logs, and feedback forms.
+
+### Data Attributes
+
+Typical attributes from these sources include:
+
+- **Customer Information**: ID, age, gender, location, subscription type.
+- **Transaction Data**: Purchase frequency, amount spent, payment method.
+- **Engagement Metrics**: Website visits, time spent, click-through rates.
+- **Customer Support Interactions**: Number of support tickets, resolution time.
+- **Churn Label**: Historical churn data (binary: churned vs. retained).
+
+## 4. Expected Pipeline Outputs
+
+The pipeline should produce the following key outputs:
+
+- **Cleaned Datasets**: Processed and structured datasets for exploratory data analysis (EDA).
+- **Feature-Engineered Data**: Transformed and normalized features suitable for machine learning models.
+- **Predictive Model**: A deployable machine learning model capable of predicting customer churn.
+
+## 5. Measurable Evaluation Metrics
+
+To assess the performance of the churn prediction model, the following metrics will be used:
+
+- **Accuracy**: Overall correctness of the predictions.
+- **Precision & Recall**: Trade-off between false positives and false negatives.
+- **F1-Score**: Balance between precision and recall.
+- **ROC-AUC Score**: Ability of the model to distinguish between churned and non-churned customers.
+- **Business Impact Metrics**: Reduction in churn rate, increased retention percentage.
+
+This document serves as the foundation for designing and implementing the end-to-end data management pipeline
+for customer churn prediction.
+
+
+
+

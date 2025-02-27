@@ -1,0 +1,15 @@
+artifact_uri: file:///home/vineeth/customer_churn_airflow/mlruns/439287812526615049/58bb6bf4ed5e441284b2245eab103380/artifacts
+end_time: 1740586495256
+entry_point_name: ''
+experiment_id: '439287812526615049'
+lifecycle_stage: active
+run_id: 58bb6bf4ed5e441284b2245eab103380
+run_name: random_forest_model
+run_uuid: 58bb6bf4ed5e441284b2245eab103380
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1740586433374
+status: 3
+tags: []
+user_id: vineeth
