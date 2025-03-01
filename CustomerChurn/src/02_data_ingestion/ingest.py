@@ -20,7 +20,7 @@ class DataIngestion:
             
             # Generate timestamped filename
             #timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            output_file = os.path.join(self.output_dir, f"bank_churn_raw.csv")
+            output_file = os.path.join(self.output_dir, f"bank_churn_loc_raw.csv")
             
             # Save the ingested file
             df.to_csv(output_file, index=False)
@@ -31,7 +31,7 @@ class DataIngestion:
 
 if __name__ == "__main__":
     logger = setup_logging()
-    input_file = "BankChurners.csv"  # Adjust path if needed
+    input_file = "bank_churn_loc.csv"  # Adjust path if needed
     BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
     output_dir = os.path.join(BASE_DIR, "data/raw")
     ingestion = DataIngestion(input_file, output_dir, logger)
