@@ -23,7 +23,9 @@ with open(scaler_path, "rb") as f:
     scaler = pickle.load(f)
 
 with open(feature_names_path, "r") as f:
-    expected_features = json.load(f)    
+    expected_features = json.load(f)
+    
+print("Expected Features:", expected_features) 
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -47,4 +49,4 @@ def predict():
         return jsonify({"error": str(e)}), 400
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5001)
+    app.run(debug=True, host="0.0.0.0", port=5002)

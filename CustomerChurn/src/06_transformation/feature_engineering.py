@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import os
 import sys
 import logging
@@ -26,16 +27,35 @@ class DataTransformation:
     @staticmethod
     def feature_engineering(df):
         logging.info("Performing feature engineering")
-        df["Customer_Tenure"] = df["Months_on_book"]
-        df["Transaction_Frequency"] = df["Total_Trans_Ct"] / df["Months_on_book"]
-        df["Avg_Transaction_Amount"] = df["Total_Trans_Amt"] / df["Total_Trans_Ct"]
-        df["Credit_Utilization_Ratio"] = df["Total_Revolving_Bal"] / df["Credit_Limit"]
-        df["Activity_Rate"] = df["Total_Trans_Ct"] / (df["Months_on_book"] * 30)  # Approx daily activity
-        df["Spending_Change_Rate"] = df["Total_Amt_Chng_Q4_Q1"] * df["Total_Trans_Amt"]
-        return df
+
+        # Customer tenure estimation (if 'Tenure' is in months)
+        df["Customer_Tenure_Years"] = df["Tenure"] / 12  
+
+        # Activity frequency: Is_Active * Tenure (Gives weight to long-term active members)
+        df["Activity_Frequency"] = df["Is_Active"] * df["Tenure"]
+
+        # Average balance per product (Avoid division by zero)
+        df["Avg_Balance_per_Product"] = df["Balance"] / df["Num_Products"]
+        df.loc[df["Avg_Balance_per_Product"].isin([np.inf, -np.inf]), "Avg_Balance_per_Product"] = 0
+
+        # Credit card impact: If a customer has a credit card, consider their balance level
+        df["Credit_Card_Utilization"] = df["Has_Credit_Card"] * df["Balance"]
+
+        # Normalizing Salary (Min-Max scaling)
+        df["Salary_Normalized"] = (df["Salary"] - df["Salary"].min()) / (df["Salary"].max() - df["Salary"].min())
+
+        # Spending Power Index (Balance to Salary ratio)
+        df["Spending_Power_Index"] = df["Balance"] / df["Salary"]
+        df.loc[df["Spending_Power_Index"].isin([np.inf, -np.inf]), "Spending_Power_Index"] = 0
+
+        # Interaction Features
+        df["High_Value_Customer"] = ((df["Balance"] > df["Balance"].median()) & (df["Salary"] > df["Salary"].median())).astype(int)
+
+        logging.info("Feature engineering completed successfully.")
+        return df    
     
     def save_transformed_data(self, df):
-        output_file = os.path.join(self.output_dir, "transformed_data.csv")
+        output_file = os.path.join(self.output_dir, "bank_churn_transformed.csv")
         df.to_csv(output_file, index=False)
         self.logger.info(f"Transformed data saved at {output_file}")
     
@@ -45,7 +65,7 @@ class DataTransformation:
         os.makedirs(db_dir, exist_ok=True)
         try:
             conn = sqlite3.connect(self.db_path)
-            df.to_sql("transformed_data", conn, if_exists="replace", index=False)
+            df.to_sql("bank_churn_transformed", conn, if_exists="replace", index=False)
             conn.close()
             self.logger.info("Transformed data stored in database successfully.")
         except Exception as e:
@@ -61,9 +81,9 @@ class DataTransformation:
 def run_data_transformation():
     logger = setup_logging()
     BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
-    input_file = os.path.join(BASE_DIR, "data/processed/cleaned_data.csv")  # Load cleaned data
+    input_file = os.path.join(BASE_DIR, "data/processed/bank_churn_processed.csv")  # Load cleaned data
     output_dir = os.path.join(BASE_DIR, "data/transformed")
-    db_path = os.path.join("data/database/churn_data.db")
+    db_path = os.path.join(BASE_DIR, "data/database/churn_data.db")
     transformation = DataTransformation(input_file, output_dir, db_path, logger)
     transformation.run_transformation()
 

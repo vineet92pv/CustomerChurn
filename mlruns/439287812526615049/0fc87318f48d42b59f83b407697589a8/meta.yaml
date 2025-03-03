@@ -1,8 +1,9 @@
 artifact_uri: file:///home/vineeth/customer_churn_airflow/mlruns/439287812526615049/0fc87318f48d42b59f83b407697589a8/artifacts
+deleted_time: 1740983547024
 end_time: 1740669977527
 entry_point_name: ''
 experiment_id: '439287812526615049'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: 0fc87318f48d42b59f83b407697589a8
 run_name: random_forest_model
 run_uuid: 0fc87318f48d42b59f83b407697589a8

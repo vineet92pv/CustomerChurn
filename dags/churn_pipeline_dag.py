@@ -3,6 +3,7 @@ import logging
 import subprocess
 import sys
 from airflow import DAG
+from airflow.utils.task_group import TaskGroup
 from airflow.operators.python import PythonOperator
 from datetime import datetime
 
@@ -66,40 +67,47 @@ def run_script(script_path: str, task_name: str):
         raise e
 
 # Define PythonOperator tasks with logging
-ingestion_task = PythonOperator(
-    task_id="ingest_data",
+
+ingestion_task_loc = PythonOperator(
+    task_id="ingest_data_loc",
     python_callable=run_script,
-    op_kwargs={"script_path": "src/01_ingestion/ingest.py", "task_name": "Data Ingestion"},
+    op_kwargs={"script_path": "src/02_data_ingestion/ingest.py", "task_name": "Data Ingestion local"},
+    dag=dag
+)
+ingestion_task_api = PythonOperator(
+    task_id="ingest_data_api",
+    python_callable=run_script,
+    op_kwargs={"script_path": "src/02_data_ingestion/ingest_kaggle_api.py", "task_name": "Data Ingestion api"},
     dag=dag
 )
 
 validation_task = PythonOperator(
     task_id="validate_data",
     python_callable=run_script,
-    op_kwargs={"script_path": "src/03_validation/data_validation.py", "task_name": "Data Validation"},
+    op_kwargs={"script_path": "src/04_data_validation/data_validation.py", "task_name": "Data Validation"},
     dag=dag
 )
 
 preparation_task = PythonOperator(
     task_id="prepare_data",
     python_callable=run_script,
-    op_kwargs={"script_path": "src/04_preparation/data_preparation.py", "task_name": "Data Preparation"},
+    op_kwargs={"script_path": "src/05_data_preparation/data_preparation.py", "task_name": "Data Preparation"},
     dag=dag
 )
 
 transformation_task = PythonOperator(
     task_id="transform_data",
     python_callable=run_script,
-    op_kwargs={"script_path": "src/05_transformation/feature_engineering.py", "task_name": "Data Transformation"},
+    op_kwargs={"script_path": "src/06_transformation/feature_engineering.py", "task_name": "Data Transformation"},
     dag=dag
 )
 
 model_training_task = PythonOperator(
     task_id="train_model",
     python_callable=run_script,
-    op_kwargs={"script_path": "src/08_model_building/model_training.py", "task_name": "Model Training"},
+    op_kwargs={"script_path": "src/09_model_building/model_training.py", "task_name": "Model Training"},
     dag=dag
 )
 
 # Set task dependencies
-ingestion_task >> validation_task >> preparation_task >> transformation_task >> model_training_task
+[ingestion_task_loc, ingestion_task_api] >> validation_task >> preparation_task >> transformation_task >> model_training_task

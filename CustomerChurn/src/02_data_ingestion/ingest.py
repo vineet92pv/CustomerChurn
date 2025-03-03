@@ -31,8 +31,10 @@ class DataIngestion:
 
 if __name__ == "__main__":
     logger = setup_logging()
-    input_file = "bank_churn_loc.csv"  # Adjust path if needed
     BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+    BASE_DIR_IN = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../"))
+    #print("BASE_DIR_IN:", BASE_DIR_IN)
+    input_file = os.path.join(BASE_DIR_IN, "bank_churn_loc.csv") 
     output_dir = os.path.join(BASE_DIR, "data/raw")
     ingestion = DataIngestion(input_file, output_dir, logger)
     ingestion.ingest_data()
