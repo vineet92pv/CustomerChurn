@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/550238860023520727/5bce2ab64968414a971d05fa93c3373b/artifacts
+end_time: 1740421829512
+entry_point_name: ''
+experiment_id: '550238860023520727'
+lifecycle_stage: active
+run_id: 5bce2ab64968414a971d05fa93c3373b
+run_name: random_forest_model
+run_uuid: 5bce2ab64968414a971d05fa93c3373b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1740421825595
+status: 3
+tags: []
+user_id: vineeth

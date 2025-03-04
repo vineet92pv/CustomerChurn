@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/550238860023520727/b21ca0933b454e16956ecab7086965cd/artifacts
+end_time: 1740423834087
+entry_point_name: ''
+experiment_id: '550238860023520727'
+lifecycle_stage: active
+run_id: b21ca0933b454e16956ecab7086965cd
+run_name: logistic_model
+run_uuid: b21ca0933b454e16956ecab7086965cd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1740423829498
+status: 3
+tags: []
+user_id: vineeth
