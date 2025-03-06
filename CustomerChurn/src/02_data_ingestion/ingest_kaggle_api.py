@@ -4,16 +4,16 @@ import glob
 import sys
 import shutil  # For moving files safely
 import subprocess  # Better command execution
+from datetime import datetime  # For timestamping
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 from src.utils import setup_logging
 
 class DataIngestion:
-    def __init__(self, dataset_name: str, download_dir: str, output_dir: str, output_filename: str, logger):
+    def __init__(self, dataset_name: str, download_dir: str, output_dir: str, logger):
         self.dataset_name = dataset_name
         self.download_dir = download_dir
         self.output_dir = output_dir
-        self.output_filename = output_filename
         self.logger = logger
 
         # Ensure directories exist
@@ -40,11 +40,22 @@ class DataIngestion:
             # Pick the correct CSV file (if multiple exist, choose the largest)
             downloaded_file = max(csv_files, key=os.path.getsize)
 
-            # Rename and move to output directory
-            new_file_path = os.path.join(self.output_dir, self.output_filename)
-            shutil.move(downloaded_file, new_file_path)
+            # Generate timestamp
+            timestamp = datetime.now().strftime("%Y%m%d")
 
-            self.logger.info(f"✅ Data ingestion successful. File saved as {new_file_path}")
+            # Define partitioned directory structure
+            partitioned_dir = os.path.join(self.output_dir, f"source=kaggle_api/type=churn/timestamp={timestamp}")
+            os.makedirs(partitioned_dir, exist_ok=True)
+
+            # Define file paths
+            partitioned_file = os.path.join(partitioned_dir, "bank_churn_api_raw.csv")
+            backup_file = os.path.join(self.output_dir, f"bank_churn_api_raw.csv")
+
+            # Move the file to both locations
+            shutil.move(downloaded_file, partitioned_file)
+            shutil.copy(partitioned_file, backup_file)  # Backup copy
+
+            self.logger.info(f"✅ Data ingestion successful. Files saved at:\n  - {partitioned_file}\n  - {backup_file}")
 
         except Exception as e:
             self.logger.error(f"❌ Error during data ingestion: {str(e)}", exc_info=True)
@@ -55,12 +66,11 @@ if __name__ == "__main__":
     # Dynamically set the base directory
     BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 
-    # Define dataset name, download directory, output directory, and desired filename
+    # Define dataset name, download directory, and output directory
     dataset_name = "gauravtopre/bank-customer-churn-dataset"
-    download_dir = os.path.join(BASE_DIR, "data/api_downloaded")  # ✅ Added back
+    download_dir = os.path.join(BASE_DIR, "data/api_downloaded")  
     output_dir = os.path.join(BASE_DIR, "data/raw")
-    output_filename = "bank_churn_api_raw.csv"
 
     # ✅ Fixed Argument Order
-    ingestion = DataIngestion(dataset_name, download_dir, output_dir, output_filename, logger)
+    ingestion = DataIngestion(dataset_name, download_dir, output_dir, logger)
     ingestion.ingest_data()

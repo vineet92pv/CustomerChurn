@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1741288961511
+current_stage: None
+description: ''
+last_updated_timestamp: 1741288961511
+name: churn_logistic_model
+run_id: 986222f8f4664ee7a7f374ab57ce7baa
+run_link: ''
+source: file:///home/vineeth/customer_churn_airflow/mlruns/439287812526615049/986222f8f4664ee7a7f374ab57ce7baa/artifacts/logistic_model
+status: READY
+status_message: null
+storage_location: file:///home/vineeth/customer_churn_airflow/mlruns/439287812526615049/986222f8f4664ee7a7f374ab57ce7baa/artifacts/logistic_model
+user_id: null
+version: 1

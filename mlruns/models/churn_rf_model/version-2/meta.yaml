@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1741289068989
+current_stage: None
+description: ''
+last_updated_timestamp: 1741289068989
+name: churn_rf_model
+run_id: 58dde091306541988cd683923f28ff5c
+run_link: ''
+source: file:///home/vineeth/customer_churn_airflow/mlruns/439287812526615049/58dde091306541988cd683923f28ff5c/artifacts/random_forest_model
+status: READY
+status_message: null
+storage_location: file:///home/vineeth/customer_churn_airflow/mlruns/439287812526615049/58dde091306541988cd683923f28ff5c/artifacts/random_forest_model
+user_id: null
+version: 2
