@@ -1,43 +1,37 @@
 {
-    "missing_values":{
-        "0":{
-            "id":0,
-            "CustomerId":0,
-            "Surname":0,
-            "CreditScore":0,
-            "Geography":0,
-            "Gender":0,
-            "Age":0,
-            "Tenure":0,
-            "Balance":0,
-            "NumOfProducts":0,
-            "HasCrCard":0,
-            "IsActiveMember":0,
-            "EstimatedSalary":0,
-            "Exited":0
-        }
+    "missing_values": {
+        "id": 0,
+        "CustomerId": 0,
+        "Surname": 0,
+        "CreditScore": 0,
+        "Geography": 0,
+        "Gender": 0,
+        "Age": 0,
+        "Tenure": 0,
+        "Balance": 0,
+        "NumOfProducts": 0,
+        "HasCrCard": 0,
+        "IsActiveMember": 0,
+        "EstimatedSalary": 0,
+        "Exited": 0
     },
-    "duplicate_count":{
-        "0":{
-            "count":0
-        }
+    "duplicate_count": {
+        "count": 0
     },
-    "data_types":{
-        "0":{
-            "id":"int64",
-            "CustomerId":"int64",
-            "Surname":"object",
-            "CreditScore":"int64",
-            "Geography":"object",
-            "Gender":"object",
-            "Age":"float64",
-            "Tenure":"int64",
-            "Balance":"float64",
-            "NumOfProducts":"int64",
-            "HasCrCard":"float64",
-            "IsActiveMember":"float64",
-            "EstimatedSalary":"float64",
-            "Exited":"int64"
-        }
+    "data_types": {
+        "id": "int64",
+        "CustomerId": "int64",
+        "Surname": "object",
+        "CreditScore": "int64",
+        "Geography": "object",
+        "Gender": "object",
+        "Age": "float64",
+        "Tenure": "int64",
+        "Balance": "float64",
+        "NumOfProducts": "int64",
+        "HasCrCard": "float64",
+        "IsActiveMember": "float64",
+        "EstimatedSalary": "float64",
+        "Exited": "int64"
     }
 }

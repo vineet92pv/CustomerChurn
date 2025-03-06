@@ -2,6 +2,8 @@ import pandas as pd
 import os
 import sys
 import logging
+import json
+import ydata_profiling as pandas_profiling
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 from src.utils import setup_logging
@@ -39,22 +41,42 @@ class DataValidation:
     def validate_data_types(df):
         return df.dtypes
 
-    def generate_report(self, df, file_name):
+    def generate_json_report(self, df, file_name):
         """Generates and saves a JSON validation report for each file."""
         report = {
             "missing_values": DataValidation.check_missing_values(df).to_dict(),
-            "duplicate_count": {"count": DataValidation.check_duplicates(df)},
-            "data_types": DataValidation.validate_data_types(df).apply(str).to_dict()
+            "duplicate_count": {"count": int(DataValidation.check_duplicates(df))},  # Convert to int
+            "data_types": {col: str(dtype) for col, dtype in DataValidation.validate_data_types(df).items()}  # Convert dtype to string
         }
+    
+        # Convert all NumPy data types to native Python types
+        report = json.loads(json.dumps(report, default=lambda o: int(o) if isinstance(o, (np.integer, np.int64)) else o))
+    
         report_path = os.path.join(self.output_dir, f"{file_name}_validation_report.json")
-        pd.DataFrame([report]).to_json(report_path, indent=4)
+        
+        with open(report_path, "w") as f:
+            json.dump(report, f, indent=4)
+        
         self.logger.info(f"✅ Validation report saved at {report_path}")
 
+    def generate_html_report(self, df, file_name):
+        """Generates and saves an interactive HTML validation report using Pandas Profiling."""
+        try:
+            profile = df.profile_report(title=f"Data Validation Report - {file_name}")
+            report_path = os.path.join(self.output_dir, f"{file_name}_validation_report.html")
+            profile.to_file(report_path)
+
+            self.logger.info(f"✅ HTML Validation report saved at {report_path}")
+        except Exception as e:
+            self.logger.error(f"❌ Error generating HTML report: {str(e)}", exc_info=True)
+
     def run_validations(self):
-        """Runs all data validation steps."""
+        """Runs all data validation steps and generates reports."""
         df = self.load_data()
         if df is not None:
-            self.generate_report(df, os.path.basename(self.input_file).replace(".csv", ""))
+            file_name = os.path.basename(self.input_file).replace(".csv", "")
+            self.generate_json_report(df, file_name)
+            self.generate_html_report(df, file_name)
 
 def run_data_validation():
     """Main function to execute data validation on available files."""
