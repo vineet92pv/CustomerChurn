@@ -5,7 +5,7 @@ import sys
 from airflow import DAG
 from airflow.utils.task_group import TaskGroup
 from airflow.operators.python import PythonOperator
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # Define the correct project root directory
 WSL_PROJECT_DIR = "/home/vineeth/customer_churn_airflow/CustomerChurn"
@@ -26,15 +26,17 @@ logger = logging.getLogger(__name__)
 # Define DAG arguments
 default_args = {
     "owner": "airflow",
+    "depends_on_past": False,
     "start_date": datetime(2025, 2, 13),
-    "retries": 1
+    "retries": 1,
+    "retry_delay": timedelta(minutes=5)
 }
 
 dag = DAG(
     "churn_pipeline",
     default_args=default_args,
     description="End-to-End Churn Prediction Pipeline",
-    schedule="@daily",  # ✅ New format
+    schedule_interval='*/10 * * * *',
     catchup=False
 )
 
