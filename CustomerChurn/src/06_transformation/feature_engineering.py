@@ -6,12 +6,16 @@ import logging
 import sqlite3
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 from src.utils import setup_logging
+from datetime import datetime, timedelta
+from feast import FeatureStore
 
 class DataTransformation:
-    def __init__(self, input_file: str, output_dir: str, db_path: str, logger):
+    def __init__(self, input_file: str, output_dir: str, db_path: str, feast_project_dir: str, feast_data_dir: str, logger):
         self.input_file = input_file
         self.output_dir = output_dir
         self.db_path = db_path
+        self.feast_project_dir = feast_project_dir
+        self.feast_data_dir = feast_data_dir
         self.logger = logger
         os.makedirs(self.output_dir, exist_ok=True)
     
@@ -77,14 +81,26 @@ class DataTransformation:
             df = self.feature_engineering(df)
             self.save_transformed_data(df)
             self.store_in_database(df)
+            # Adding event_timestamp column in data framework for feature store
+            df["event_timestamp"] = [datetime.now() - timedelta(days=i) for i in range(len(df))]
+            df["event_timestamp"] = pd.to_datetime(df["event_timestamp"], utc=True)
+            # Ensure correct column order
+            df = df[["event_timestamp"] + [col for col in df.columns if col != "event_timestamp"]]
+            #  Display DataFrame
+            #print(df)
+            df.to_parquet(self.feast_data_dir+"/bank_churn.parquet", engine="pyarrow", index=False)
 
 def run_data_transformation():
     logger = setup_logging()
     BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+    #print(BASE_DIR)
     input_file = os.path.join(BASE_DIR, "data/processed/bank_churn_processed.csv")  # Load cleaned data
     output_dir = os.path.join(BASE_DIR, "data/transformed")
     db_path = os.path.join(BASE_DIR, "data/database/churn_data.db")
-    transformation = DataTransformation(input_file, output_dir, db_path, logger)
+    feast_project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../feast_churn/feature_repo"))
+    feast_data_dir = os.path.join(feast_project_dir, "data")
+    #print(feast_project_dir)
+    transformation = DataTransformation(input_file, output_dir, db_path, feast_project_dir, feast_data_dir, logger)
     transformation.run_transformation()
 
 if __name__ == "__main__":

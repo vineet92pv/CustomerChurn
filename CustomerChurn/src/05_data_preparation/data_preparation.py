@@ -18,9 +18,9 @@ class DataPreparation:
             "CustomerId": "Customer_ID",
             "Customer_": "Customer_ID",
             "Surname": "Last_Name",
+            "credit_score": "Credit_Score",
             "CreditScore": "Credit_Score",
-            "Credit_Scc": "Credit_Score",
-            "credit_sco": "Credit_Score",
+            "credit_Score": "Credit_Score",
             "Geography": "Country",
             "Gender": "Gender",
             "Age": "Age",
@@ -42,7 +42,12 @@ class DataPreparation:
             "estimated_cl": "Salary",
             "estimated_salary": "Salary",
             "Exited": "Churn",
-            "churn": "Churn"
+            "churn": "Churn",
+            "country_Germany": "Country_Germany",
+            "Country_Germany": "Country_Germany",
+            "country_Spain": "Country_Spain",	
+            "Country_Spain": "Country_Spain",	
+            "gender_Male": "Gender_Male"
         }
 
     def load_data(self, file_path):
@@ -73,23 +78,23 @@ class DataPreparation:
         self.logger.info(f"✅ Standardized columns: {df.columns.tolist()}")
         return df
 
-    def remove_duplicate_columns(self, df):
-        """Ensure only one correct version of each column remains."""
-        seen = set()
-        drop_cols = []
+    # def remove_duplicate_columns(self, df):
+    #     """Ensure only one correct version of each column remains."""
+    #     seen = set()
+    #     drop_cols = []
         
-        for col in df.columns:
-            normalized_col = col.lower().strip()
-            if normalized_col in seen:
-                drop_cols.append(col)
-            else:
-                seen.add(normalized_col)
+    #     for col in df.columns:
+    #         normalized_col = col.lower().strip()
+    #         if normalized_col in seen:
+    #             drop_cols.append(col)
+    #         else:
+    #             seen.add(normalized_col)
         
-        if drop_cols:
-            df.drop(columns=drop_cols, inplace=True)
-            self.logger.info(f"🛑 Dropped duplicate columns: {drop_cols}")
+    #     if drop_cols:
+    #         df.drop(columns=drop_cols, inplace=True)
+    #         self.logger.info(f"🛑 Dropped duplicate columns: {drop_cols}")
         
-        return df
+    #     return df
 
     def detect_column_types(self, df):
         """Automatically detect numeric and categorical columns."""
@@ -122,6 +127,7 @@ class DataPreparation:
     def standardize_numerical(self, df, numeric_cols):
         """Standardize numerical columns using Z-score normalization."""
         self.logger.info("🔹 Standardizing numerical features.")
+        numeric_cols = [col for col in numeric_cols if col != "Customer_ID"]
         df[numeric_cols] = (df[numeric_cols] - df[numeric_cols].mean()) / df[numeric_cols].std()
         return df
 
@@ -148,10 +154,11 @@ class DataPreparation:
             df = self.load_data(file_path)
             if df is not None:
                 df = self.standardize_columns(df)
-                df = self.remove_duplicate_columns(df)
+                # df = self.remove_duplicate_columns(df)
                 df = self.handle_missing_values(df)
                 numeric_cols, categorical_cols = self.detect_column_types(df)
                 df = self.encode_categorical(df, categorical_cols)
+                df = self.standardize_columns(df)
                 df = self.standardize_numerical(df, numeric_cols)
                 df = self.remove_duplicates(df)
                 processed_dataframes.append(df)
@@ -168,7 +175,7 @@ class DataPreparation:
             final_df = processed_dataframes[0]
 
         # Remove duplicate columns after merging
-        final_df = self.remove_duplicate_columns(final_df)
+        # final_df = self.remove_duplicate_columns(final_df)
         final_df = self.remove_duplicates(final_df)
 
         # Save final merged file
