@@ -1,0 +1,33 @@
+{
+    "missing_values": {
+        "customer_id": 0,
+        "credit_score": 0,
+        "country": 0,
+        "gender": 0,
+        "age": 0,
+        "tenure": 0,
+        "balance": 0,
+        "products_number": 0,
+        "credit_card": 0,
+        "active_member": 0,
+        "estimated_salary": 0,
+        "churn": 0
+    },
+    "duplicate_count": {
+        "count": 0
+    },
+    "data_types": {
+        "customer_id": "int64",
+        "credit_score": "int64",
+        "country": "object",
+        "gender": "object",
+        "age": "int64",
+        "tenure": "int64",
+        "balance": "float64",
+        "products_number": "int64",
+        "credit_card": "int64",
+        "active_member": "int64",
+        "estimated_salary": "float64",
+        "churn": "int64"
+    }
+}
